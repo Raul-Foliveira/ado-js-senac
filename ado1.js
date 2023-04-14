@@ -6,7 +6,7 @@
  * @return {Array} Os nomes dos alunos que fizeram este exercício.
  */
 function nomesDosAlunos() {
-    return [ "João da Silva", "Maria da Silva" ];
+    return ["Raul Florentino de Oliveira","Thiago souza lima","Leonel oliveira marques da silva","Guilherme da silva chaves gonçalves"];
 }
 
 // Implemente as funções abaixo, conforme pede o enunciado.
@@ -48,7 +48,9 @@ function maiorDosDoisSimplificado(a, b) {
  * @return {number} O resultado da operação.
  */
 function maiorDosQuatro(a, b, c, d) {
-    naoFizIssoAinda();
+    
+ return Math.max(a, b, c, d)
+    
 }
 
 // EXERCÍCIO 2.
@@ -80,8 +82,38 @@ function maiorDosQuatro(a, b, c, d) {
  * @return {number} O resultado da operação.
  */
 function operacoesBasicas(operacao, numero1, numero2) {
-    naoFizIssoAinda();
-}
+    if (typeof operacao !== 'string' || operacao.length !== 1) {
+        return undefined;
+        }
+        let resultado;
+        
+        if (operacao === 'A') {
+        resultado = numero1 + numero2;
+        } else if (operacao === 'S') {
+        resultado = numero1 - numero2;
+        } else if (operacao === 'M') {
+        resultado = numero1 * numero2;
+        } else if (operacao === 'D') {
+        if (numero2 === 0) {
+        resultado = NaN;
+        } else {
+        resultado = numero1 / numero2;
+        }
+        } else if (operacao === 'P') {
+        if (numero1 === 0 && numero2 === 0) {
+        resultado = NaN;
+        } else if (numero1 === 0 && numero2 < 0) {
+        resultado = NaN;
+        } else if (numero1 < 0 && !Number.isInteger(numero2)) {
+        resultado = NaN;
+        } else {
+        resultado = Math.pow(numero1, numero2);
+        }
+        } else {
+        return undefined;
+        }        
+        return resultado;
+        }
 
 // EXERCÍCIO 3.
 /**
@@ -101,8 +133,21 @@ function operacoesBasicas(operacao, numero1, numero2) {
  * @returns {String} A mensagem com o resultado da comparação.
  */
 function comparadorBasico(elemento1, elemento2) {
-    naoFizIssoAinda();
+    const tipoElemento1 = determinarTipo(elemento1);
+  const tipoElemento2 = determinarTipo(elemento2);
+
+  if (elemento1 === elemento2) {
+    return `Elemento ${elemento1} (${tipoElemento1}) é estritamente igual ao elemento ${elemento2} (${tipoElemento2}).`;
+  } else if (elemento1 == elemento2) {
+    return `Elemento ${elemento1} (${tipoElemento1}) é equivalente ao elemento ${elemento2} (${tipoElemento2}).`;
+  } else {
+    return `Elemento ${elemento1} (${tipoElemento1}) é diferente do elemento ${elemento2} (${tipoElemento2}).`;
+  }
 }
+
+
+
+
 
 // EXERCÍCIO 4.
 /**
@@ -118,8 +163,20 @@ function comparadorBasico(elemento1, elemento2) {
  * @return {String} String com o primeiro nome apenas.
  */
 function primeiroNome(nomeCompleto) {
-    naoFizIssoAinda();
+    const nome = nomeCompleto.replace(/\s+/gi, ' ').trim();
+    var primeiro = nome.split(" ", 1);
+    if(primeiro.length > 0){
+        return primeiro.map((parte, index, nomes) => (index != 1) ? parte : `${parte[0]}.`).join(' ');
+    }else{
+        return nomeCompleto;
+    }
+   
+    //var resultado = nomeCompleto.split(" ", 1);
+
+     //return (resultado);
+   
 }
+
 
 // EXERCÍCIO 5.
 /**
@@ -136,8 +193,15 @@ function primeiroNome(nomeCompleto) {
  * @return {String} String com o primeiro nome conforme dado e o segundo nome abreviado.
  */
 function abreviadorNomes(nomeCompleto) {
-    naoFizIssoAinda();
+    const nome = nomeCompleto.replace(/\s+/gi, ' ').trim();
+     var array_nome = nome.split(' ');
+    if(array_nome.length > 1){
+        return array_nome.map((parte, index, nomes) => (index != 1) ? parte : `${parte[0]}.`).join(' ');
+    }else{
+        return nomeCompleto;
+    }
 }
+
 
 // EXERCÍCIO 6.
 /**
@@ -159,8 +223,17 @@ function abreviadorNomes(nomeCompleto) {
  * @return {boolean} Verdadeiro se a data for válida, falso em caso contrário.
  */
 function dataValida(data) {
-    naoFizIssoAinda();
-}
+    const regexData = /^([0-2]\d|3[01])\/(0\d|1[012])\/(?!0{4})\d{4}$/; // regex para validar formato da data
+    if (!regexData.test(data)) return false; // verifica se a data está no formato correto
+  
+    const [dia, mes, ano] = data.split('/').map(Number); // converte os valores para números
+    const diasMes = [31, ano % 4 || !(ano % 100) && ano % 400 ? 28 : 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // array com a quantidade de dias de cada mês
+    if (mes < 1 || mes > 12) return false; // verifica se o mês é válido
+    if (dia < 1 || dia > diasMes[mes - 1]) return false; // verifica se o dia é válido
+  
+    return true; // se chegou até aqui, a data é válida
+   
+}         
 
 // EXERCÍCIO 7.
 /**
@@ -181,9 +254,46 @@ function dataValida(data) {
  * @param {String} data String com a data no formato brasileiro (dia/mês/ano).
  * @return {String} Data no formato "Dia de Nome-do-Mês-por-Extenso de Ano" ou "Data inválida".
  */
-function converteDataParaFormaCompleta(data) {
-    naoFizIssoAinda();
-}
+function converteDataParaFormaCompleta(data) { 
+  
+
+    const meses = [
+        'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+      ];      
+      const partes = data.split('/');
+      if (partes.length !== 3) {
+        return 'Data inválida';
+      }      
+      const [dia, mes, ano] = partes;      
+      if (dia.length !== 2 || mes.length !== 2 || ano.length !== 4) {
+        return 'Data inválida';
+      }      
+      if (!/\d{2}/.test(dia) || !/\d{2}/.test(mes) || !/\d{4}/.test(ano)) {
+        return 'Data inválida';
+      }      
+      const diaInt = parseInt(dia);
+      const mesInt = parseInt(mes);
+      const anoInt = parseInt(ano);      
+      if (diaInt < 1 || diaInt > 31) {
+        return 'Data inválida';
+      }      
+      if (mesInt < 1 || mesInt > 12) {
+        return 'Data inválida';
+      }      
+      const bissexto = (anoInt % 4 === 0 && anoInt % 100 !== 0) || anoInt % 400 === 0;
+      const diasNoMes = [31, bissexto ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];      
+      if (diaInt > diasNoMes[mesInt - 1]) {
+        return 'Data inválida';
+      }      
+      const mesPorExtenso = meses[mesInt - 1];
+      if (anoInt === 0) {
+        return 'Data inválida';
+      }
+      return `${dia} de ${mesPorExtenso} de ${ano}`;   
+    }
+    
+ 
 
 // EXERCÍCIO 8.
 /**
@@ -200,7 +310,14 @@ function converteDataParaFormaCompleta(data) {
  * @return {number} O somatório de valores pares entre os dois números, contando com eles.
  */
 function somadorPares(inicio, fim) {
-    naoFizIssoAinda();
+    let soma = 0;
+    for (let i = inicio; i <= fim; i++) {
+    if (i % 2 === 0) {
+    soma += i;
+    }
+    }
+    return soma;   
+   
 }
 
 // EXERCÍCIO 9.
@@ -211,7 +328,17 @@ function somadorPares(inicio, fim) {
  * @return {number|undefined} O menor valor do vetor ou undefined se o vetor estiver vazio.
  */
 function acharMenor(vetor) {
-    naoFizIssoAinda();
+    if (vetor.length === 0) {
+        return undefined;
+      }      
+      let menor = vetor[0];      
+      for (let i = 1; i < vetor.length; i++) {
+        if (vetor[i] < menor) {
+          menor = vetor[i];
+        }
+      }      
+      return menor;
+    
 }
 
 // EXERCÍCIO 10.
@@ -222,7 +349,13 @@ function acharMenor(vetor) {
  * @return {Array<number>} O vetor contendo apenas números pares do original (ou vazio se não houver nenhum).
  */
 function acharPares(vetor) {
-    naoFizIssoAinda();
+    const pares = [];
+    for (let i = 0; i < vetor.length; i++) {
+      if (vetor[i] % 2 === 0) {
+        pares.push(vetor[i]);
+      }
+    }
+    return pares;
 }
 
 // EXERCÍCIO 11.
@@ -248,7 +381,23 @@ function acharPares(vetor) {
  * @return {String} Estado do peso da pessoa.
  */
 function calcularImc(pessoa) {
-    naoFizIssoAinda();
+    const imc = pessoa.peso / (pessoa.altura ** 2);
+    pessoa.IMC = imc; 
+    let estado = "";  
+    if (imc < 18.5) {
+      estado = "Abaixo do peso";
+    } else if (imc < 25) {
+      estado = "Normal";
+    } else if (imc < 30) {
+      estado = "Excesso de peso";
+    } else if (imc < 35) {
+      estado = "Obesidade leve (Grau I)";
+    } else if (imc < 40) {
+      estado = "Obesidade severa (Grau II)";
+    } else {
+      estado = "Obesidade mórbida (Grau III)";
+    }  
+    return estado;
 }
 
 // EXERCÍCIO 12.
@@ -262,7 +411,20 @@ function calcularImc(pessoa) {
  * @return {Array<String>} Um array com as palavras da frase.
  */
 function obterPalavras(frase) {
-    naoFizIssoAinda();
+    if (!frase) return []; 
+    const palavras = frase.split(' ');    
+    if (palavras.length === 1 && /^["']\s*["']$/.test(palavras[0])) {
+      return []; 
+    }    
+    if (palavras.length === 5) {
+      const palavrasSemEspacos = palavras.map(palavra => palavra.trim());
+      if (!palavrasSemEspacos.includes('')) {
+        return palavrasSemEspacos; // retorna a frase como um array sem espaços extras
+      }
+    }
+  
+    return palavras.filter(palavra => palavra); // remove palavras vazias do array e retorna o resultado  
+      
 }
 
 // EXERCÍCIO 13.
@@ -284,7 +446,18 @@ function obterPalavras(frase) {
  * @return {String} O texto resultante da transformação com rot13.
  */
 function rot13(texto) {
-    naoFizIssoAinda();
+    let resultado = "";
+    for (let i = 0; i < texto.length; i++) {
+      let c = texto.charCodeAt(i);
+      if (c >= 65 && c <= 90) {
+        resultado += String.fromCharCode(((c - 65 + 13) % 26) + 65);
+      } else if (c >= 97 && c <= 122) {
+        resultado += String.fromCharCode(((c - 97 + 13) % 26) + 97);
+      } else {
+        resultado += texto.charAt(i);
+      }
+    }
+    return resultado;
 }
 
 // EXERCÍCIO 14.
@@ -297,9 +470,11 @@ function rot13(texto) {
  * 3. Colocar o resultado no segundo <textarea>.
  */
 function fazerRot13() {
-    naoFizIssoAinda();
+  const textareas = document.querySelectorAll("#rot13 textarea");
+  const originalText = textareas[0].value;
+  const convertedText = rot13(originalText);
+  textareas[1].value = convertedText;
 }
-
 // EXERCÍCIO 15.
 /**
  * Escreva uma função que recebe os três lados de um triângulo e retorne qual tipo de triângulo é.
@@ -314,8 +489,20 @@ function fazerRot13() {
  * @param {number} a O tamanho do terceiro lado do triângulo.
  * @return {String} O tipo de triângulo resultante.
  */
-function tipoTriangulo(a, b, c) {
-    naoFizIssoAinda();
+function tipoTriangulo(a, b, c) {   
+  if (a <= 0 || b <= 0 || c <= 0) {
+    return "Não é um triângulo";
+  }   
+  if (a >= b + c || b >= a + c || c >= a + b) {
+    return "Não é um triângulo";
+  }    
+  if (a === b && b === c) {
+    return "Equilátero";
+  } else if (a === b || a === c || b === c) {
+    return "Isósceles";
+  } else {
+    return "Escaleno";
+  }
 }
 
 // EXERCÍCIO 16.
@@ -330,8 +517,14 @@ function tipoTriangulo(a, b, c) {
  * @param {number} a O tamanho do terceiro lado do triângulo.
  * @return {number|undefined} A área do triângulo resultante ou undefined se não formar um triângulo.
  */
-function areaTriangulo(a, b, c) {
-    naoFizIssoAinda();
+function areaTriangulo(a, b, c) {   
+ 
+  if (a <= 0 || b <= 0 || c <= 0 || (a + b <= c) || (a + c <= b) || (b + c <= a)) {
+    return undefined;
+  } 
+  const p = (a + b + c) / 2;
+  const area = Math.sqrt(p * (p - a) * (p - b) * (p - c));  
+  return area;
 }
 
 // EXERCÍCIO 17.
@@ -353,19 +546,26 @@ function areaTriangulo(a, b, c) {
  * Dica: Procure ver funções de manipulação de DOM nas partes que faltam (o que está como naoFizIssoAinda()).
  */
 function verificarTriangulo() {
-    // Comece a mexer no código daqui para baixo.
-    let texto1, texto2;
-    try {
-        const a = lerNumero(naoFizIssoAinda(), naoFizIssoAinda());
-        const b = lerNumero(naoFizIssoAinda(), "Informe o número B corretamente.");
-        const c = lerNumero(naoFizIssoAinda(), naoFizIssoAinda());
-        texto1 = naoFizIssoAinda(a, b, c);
-        // Fazer algo com o texto2.
-    } catch (e) {
-        texto1 = e.message;
-        // Fazer algo aqui.
-    }
-    naoFizIssoAinda();
+  // Comece a mexer no código daqui para baixo.
+ ;
+  let texto1, texto2;
+  try {
+      const a = lerNumero(  (""),);
+      const b = lerNumero((""), "Informe o número B corretamente.");
+      const c = lerNumero( ("")) ;
+      const tipo = tipoTriangulo(a, b, c);
+      texto1 = tipo;
+      const area = areaTriangulo(a, b, c);
+      texto2 = area;
+  } catch (e) {
+      texto1 = e.message;
+      texto2 = "";
+  }
+  const tipoInput = document.querySelector('#triangulo input:nth-of-type(4)');
+  const areaInput = document.querySelector('#triangulo input:nth-of-type(5)');
+  tipoInput.value = texto1;
+  areaInput.value = texto2;
+
 }
 
 // EXERCÍCIO 18.
@@ -389,8 +589,14 @@ function verificarTriangulo() {
  *                                Ao término da função, restarão entre 17 e 42 cartas remanescentes neste array.
  * @param {Array<Object>} jogadores Um array com os jogadores que devem receber as cartas.
  */
-function distribuirCartas(baralho, jogadores) {
-    naoFizIssoAinda();
+function distribuirCartas(baralho, jogadores) { 
+  const numJogadores = jogadores.length;  
+  for (let i = 0; i < 5; i++) { 
+    for (let j = 0; j < numJogadores; j++) { 
+      const carta = baralho.shift(); 
+      jogadores[j].cartas.push(carta); 
+  }
+}
 }
 
 // EXERCÍCIO 19.
@@ -403,7 +609,14 @@ function distribuirCartas(baralho, jogadores) {
  * @return {String|undefined} O nome do jogador com o ás de ouros ou undefined se ninguém tiver o ás de ouros.
  */
 function asDeOuros(jogadores) {
-    naoFizIssoAinda();
+  for (let jogador of jogadores) {
+    for (let carta of jogador.cartas) {
+      if (carta === 'A-♢') {
+        return jogador.nome;
+      }
+    }
+  }
+  return null;
 }
 
 // EXERCÍCIO 20.
@@ -416,8 +629,17 @@ function asDeOuros(jogadores) {
  * @param {Array<Object>} jogadores Um array com os jogadores, cada um com 5 cartas.
  * @return {boolean} Verdadeiro se todos tiverem alguma carta real na mão, falso se algum não tiver.
  */
-function todosTemCartasReais(jogadores) {
-    naoFizIssoAinda();
+function todosTemCartasReais(jogadores) {   
+for (let i = 0; i < jogadores.length; i++) { 
+  const temCartaReal = jogadores[i].cartas.some(carta => {
+  const valor = carta.split("-")[0];
+  return valor === "J" || valor === "Q" || valor === "K";
+  }); 
+  if (!temCartaReal) {
+  return false;
+  }
+  }  
+  return true;
 }
 
 // EXERCÍCIO 21.
@@ -432,7 +654,21 @@ function todosTemCartasReais(jogadores) {
  * @return {boolean} Verdadeiro se houverem pelo menos 3 cartas com o mesmo valor na mão, falso em caso contrário.
  */
 function existeTrinca(cartas) {
-    naoFizIssoAinda();
+const contagem = {};
+for (let i = 0; i < cartas.length; i++) {
+const valor = cartas[i][0];
+if (!contagem[valor]) {
+contagem[valor] = 1;
+} else {
+contagem[valor]++;
+}
+}
+for (const valor in contagem) {
+if (contagem[valor] >= 3) {
+return true;
+}
+}
+return false;
 }
 
 // EXERCÍCIO 22.
@@ -452,7 +688,16 @@ function existeTrinca(cartas) {
  * @return {Object} Um objeto onde as chaves são palavras da frase e os valores são o número de ocorrências na frase.
  */
 function contarPalavras(frase) {
-    naoFizIssoAinda();
+   // naoFizIssoAinda();
+   if (typeof frase !== "string" || frase.trim() === "") {
+    return {}; 
+  }
+  const palavras = frase.toLowerCase().trim().split(/\s+/); // Transforma em minúsculas e separa as palavras
+  const contagem = {};  
+  palavras.forEach((palavra) => {
+    contagem[palavra] = contagem[palavra] ? contagem[palavra] + 1 : 1;
+  });
+  return contagem;   
 }
 
 // EXERCÍCIO 23.
@@ -467,8 +712,17 @@ function contarPalavras(frase) {
  * @param {number} c O termo constante da expressão de segundo grau.
  * @return {Array<number>|undefined} Um array com as soluções reais ou undefined se não for uma equação de segundo grau.
  */
-function bhaskara(a, b, c) {
-    naoFizIssoAinda();
+function bhaskara(a, b, c) {    
+    if (a === 0) {
+      return undefined;
+    }  
+    const delta = b * b - 4 * a * c;  
+    if (delta < 0) {
+      return [];
+    }  
+    const x1 = (-b - Math.sqrt(delta)) / (2 * a);
+    const x2 = (-b + Math.sqrt(delta)) / (2 * a);  
+    return [Math.min(x1, x2), Math.max(x1, x2)];
 }
 
 // EXERCÍCIO 24.
@@ -489,10 +743,27 @@ function bhaskara(a, b, c) {
  * @param {Object} times O dicionário contendpo os nomes dos times e o respectivo número de pontos e saldo de gols.
  * @return {Array<string>} Um array com os times na ordem de classificação, do campeão ao lanterna.
  */
-function classificacao(times) {
-    naoFizIssoAinda();
-}
-
+function classificacao(times) { 
+    const resultado = [];
+    for (const time in times) {
+      resultado.push(time);
+    }
+    return resultado.sort((time1, time2) => {
+      const pontosA = 3 * times[time1].vitorias + times[time1].empate;
+      const pontosB = 3 * times[time2].vitorias + times[time2].empate;
+      const saldoA = times[time1] ["saldo-de-gols"];
+      const saldoB = times[time2] ["saldo-de-gols"];
+      if (pontosA !== pontosB)
+        return pontosA - pontosB;
+      if (saldoA !== saldoB)
+        return saldoA - saldoB;
+      if (time1 > time2)
+        return 1;
+      if (time1 < time2)
+      return -1;
+      return 0;
+    })
+  }    
 // EXERCÍCIO 25.
 /**
  * Esta função recebe um array com várias opções acerca de como você deve fazer a entrega deste AC.
